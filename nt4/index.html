@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+        body{
+            font-family:"Montserrat";
+            background-color: #7bcdf1;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Theoretical part</h1>
+    <h2>1.1.   Describe the following: TCP protocol, UDP protocol, TCP protocol parameters, UDP protocol parameters, TCP connection, three way handshake, connection establishment, connection release, ports,    </h2>
+    <ul>
+        <li>
+            <h3>TCP protocol</h3>
+            <p>
+                TCP (transmission control protocol) is a communication protocol responsible
+                for ensuring reliable data exchange between  the sender and
+                reciver before transmitting data. Reliable means:
+                <ul>
+                    <li>
+                        Data is transmitted <b>in correct order</b> (although segments can arrive at diffrent time,
+                        they are assemled)
+                        and <b>integrity is verified.</b>
+                    </li>
+                    <li>
+                        <b>Error control:</b> TCP checksums data corruption during transmission
+                    </li>
+                    <li>
+                        TCP ensures <b>flow control</b>. It blocks the situations when
+                        the reciver gets more data than it can proceed.
+                    </li>
+                    <li>
+                        <b>Acknowlegment mechanism:</b> the reciver confirms recipt of data. In case 
+                        of lack of acknowlegment - there occurs retransmission
+                    </li>
+                </ul>
+            </p>
+        </li>
+        <li>
+            <h3>UDP protocol</h3>
+            <p>
+                UDP (user datagram protocol) is quicker and simpler version of TCP, but 
+                it doesn't guarantee reliability. It's conectionless, so the data is sent 
+                without estabilishing connection before. Key features of UDP are:
+                <ul>
+                    <li>
+                        <b>Speed:</b> lack of acknowledgment and retransmission mechanisms make it
+                        more efficient for real time applications
+                    </li>
+                    <li>
+                        <b>No guarantee of data delivery:</b> data may be lost, duplicated or arrive 
+                        out of order
+                    </li>
+                    <li>
+                        <b>Simplicity:</b> UDP has less complex structure than TCP making it more suitable
+                        for scenarias where speed is more important than reliability (e.g streaming) 
+                    </li>
+                    <li>
+                        <b>No flow control:</b> the sender does not monitor the reciver's capacity to process data.
+                    </li>
+                </ul> 
+
+            </p>
+        </li>
+        <li>
+            <h3>TCP parameters</h3>
+            <ul>
+                <li><strong>Source Port Address:</strong> A 16-bit field that holds the port address of the application that is sending the data segment.</li>
+                <li><strong>Destination Port Address:</strong> A 16-bit field that holds the port address of the application in the host that is receiving the data segment.</li>
+                <li><strong>Sequence Number:</strong> A 32-bit field that holds the sequence number, i.e., the byte number of the first byte that is sent in that particular segment. It is used to reassemble the message at the receiving end of the segments that are received out of order.</li>
+                <li><strong>Acknowledgement Number:</strong> A 32-bit field that holds the acknowledgement number, i.e., the byte number that the receiver expects to receive next. It is an acknowledgement for the previous bytes being received successfully.</li>
+                <li><strong>Header Length (HLEN):</strong> This is a 4-bit field that indicates the length of the TCP header by a number of 4-byte words in the header. For example:
+                  <ul>
+                    <li>If the header is 20 bytes (minimum length of TCP header), then this field will hold 5 (because 5 x 4 = 20).</li>
+                    <li>For the maximum length of 60 bytes, it will hold the value 15 (because 15 x 4 = 60).</li>
+                  </ul>
+                  Hence, the value of this field is always between 5 and 15.
+                </li>
+                <li><strong>Control Flags:</strong> These are 6 1-bit control bits that control connection establishment, connection termination, connection abortion, flow control, mode of transfer, etc. Their functions are:
+                  <ul>
+                    <li><strong>URG:</strong> Urgent pointer is valid.</li>
+                    <li><strong>ACK:</strong> Acknowledgement number is valid (used in case of cumulative acknowledgement).</li>
+                    <li><strong>PSH:</strong> Request for push.</li>
+                    <li><strong>RST:</strong> Reset the connection.</li>
+                    <li><strong>SYN:</strong> Synchronize sequence numbers.</li>
+                    <li><strong>FIN:</strong> Terminate the connection.</li>
+                  </ul>
+                </li>
+                <li><strong>Window Size:</strong> This field tells the window size of the sending TCP in bytes.</li>
+                <li><strong>Checksum:</strong> This field holds the checksum for error control. It is mandatory in TCP as opposed to UDP.</li>
+                <li><strong>Urgent Pointer:</strong> This field (valid only if the URG control flag is set) is used to point to data that is urgently required and needs to reach the receiving process at the earliest. The value of this field is added to the sequence number to get the byte number of the last urgent byte.</li>
+              </ul>
+              
+        </li>
+        <li>
+            <h3>UDP parameters</h3>
+            <ul>
+                <li><strong>Source and Destination Ports:</strong> Identify the application sending and receiving data (e.g., port 53 for DNS).</li>
+                <li><strong>Length:</strong> Specifies the total size of the UDP datagram, including the header and data.</li>
+                <li><strong>Checksum:</strong> Verifies the integrity of the header and data. It is optional in IPv4 but mandatory in IPv6.</li>
+			</ul>
+        </li>
+		<li>
+			<h3>TCP connection</h3>
+			<ul>
+				<li>connection-oriented communication protocol used for reliable data transmission between two devices on a network</li>
+				<li>ensures that data is delivered in correct order, without errors, with mechanism for retransmitting list packets</li>
+				<li>operates at the transport layer of the OSI model</li>
+				<li>provides services like error checking, flow control and congestion control</li>
+				<li>established using a process known as <strong>three-way handshake</strong> and terminated through a connection release process</li>
+				<li>during its lifetime, data can be transmitted in both directions (full-duplex), each data segment is acknowledged by the receiver</li>
+			</ul>
+		</li>
+		<li>
+			<h3>Three-way Handshake</h3>
+			<ul>
+				<li>process used to establish a TCP connection between a client and a server</li>
+				<li>ensures both sides are ready to send and receive data</li>
+				<li>involves three steps:
+					<ol>
+						<li><b>SYN</b> (synchronize) - the client sends a SYN packet to the server to initiate the connection, indicating that it want to start a communication</li>
+						<li><b>SYN-ACK</b> (synchronize-acknowledge) - the server responds with a SYN-ACK packet, acknowledging the SYN request and indicating that it is ready to establish the connection</li>
+						<li><b>ACK</b> (acknowledge) - the client sends an ACK packet back to the server to acknowledge the server's response. The connection is established and data transmission can begin</li>
+					</ol>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<h3>Connection Establishment</h3>
+			<ul>
+				<li>refers to the process in which a TCP connection is initiated (typically through the three-way handshake)</li>
+				<li>ensures that both ends of the communication are ready to exchange data and that parameters (such as sequence numbers and window sizes) are agreed upon for the session</li>
+				<ol>
+					<li>Sender starts the process with an initial sequence number, SYN flg, maximum segment size and window size</li>
+					<li>Receiver a packet with its own initial sequence number, SYN and ACK flags, maximum segment size (both parties agree on minimum MSS to avoid fragmentation of packets), window size and acknowledgement number.</li>
+					<li>Sender confirm by sending an ACK packet acknowledging the receiver's SYN-ACK (sequence and acknowledgement number, ACK flag) and finalizing the connection</li>
+				</ol>
+			</ul>
+		</li>
+		<li>
+			<h3>Connection release</h3>
+			<ul>
+				<li>process which involves gracefully closing the TCP connection when communication is finished</li>
+				<li>ensures any remaining data is transmitted and resources are properly released</li>
+				<li>termination follows four-step process:
+					<ol>
+						<li>The side that wants to terminate connnection sends a FIN (finish) packet to the other side</li>
+						<li>The receiving side acknowledges the FIN packet with an ACK</li>
+						<li>The receiving side then sends its own FIN packet to the initiator of the termination process (indicating that it's done sending data)</li>
+						<li>The initiator acknowledges the FIN with an ACK. The connection is fully closed and both sides can release resources</li>
+					</ol>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<h3>Ports</h3>
+			<ul>
+				<li>in TCP and UDP ports are used to identify specific applications or services running on a device</li>
+				<li>each device on the internet or local network has a unique IP address but different services on that device are distinguished by port numbers</li>
+				<li>ports enable multiple services to run simultaneously on the same device allowing them to share the same network connection</li>
+				<li>port numbers range from 0 to 65535, they are divided into 3 categories:
+					<ol>
+						<li><b>well-known ports</b> (0-1023) - used by common protocols like HTTP (port 80), FTP (port 21) and HTTPS (port 443)</li>
+						<li><b>registered ports</b> (1024-49151) - used by applications and services that aren't as commonly recognized as thos in the well-known range</li>
+						<li><b>dynamic/private ports</b> (49152-65535) - typically used by client application for ephemeral or temporary connections</li>
+    </ul>			</ol>
+				</li>
+				<li>ports work alongside IP addresses to route traffic to the correct application on a device</li>
+			</ul>
+		</li>
+    <h1>Practical part</h1>
+    <h2>2.1.1.     Enter www.google.com webpage using preferred browser. Use netstat and Wireshark to identify ports which are used for data transmission (local and remote port numbers). Finish the connection (close the browser) and check local port status.</h2>
+    <p>Instuction:</p>
+    <ol>
+        <li>Open wireshark, set filter as <i>ip={google ip}</i></li>
+        <li>Open google com</li>
+        <li>In terminal <i>netstat -n</i></li>
+        <li>Terminate connection to google.com</li>
+        <li>In netstat find <i>ESTABILISHED</i> connection with google.com and <i>TIME WAIT</i> connection with google.com on same ports</li>
+    </ol>
+    <div style="display:flex; flex-direction: column; gap: 20px; padding-top: 20px;">
+        <img src="./2.1.1/4.png" width="80%" alt="">
+        <img src="./2.1.1/1.png" width="80%" alt="">
+        <img src="./2.1.1/2.png"  width="80%" alt="">
+        <img src="./2.1.1/3.png"  width="80%" alt="">
+    </div>
+    <h2>2.1.2.     Copy the file from your local host to studife.it.p.lodz.pl server using ftp protocol. Use netstat and Wireshark to identify ports which are used for data transmission (local and remote port numbers). Finish the connection and check local port status.</h2>
+    <p>
+        Connect to server using <i>ftp studife.it.p.lodz.pl</i> then login. Chceck <i>netstat -n | findstr 212.51.220.81</i>.
+        In wireshark set filter <i>ip.addr==212.51.220.81</i>. Put file on the server and check <i>netstat -n | findstr 212.51.220.81</i>.
+        Check the records from wireshark.
+    </p>
+    <div style="display:flex; flex-direction: column; gap: 20px; padding-top: 20px;">
+        <img src="./2.1.2/1.png" width="80%" alt="">
+        <img src="./2.1.2/2.png"  width="80%" alt="">
+        <img src="./2.1.2/3.png"  width="80%" alt="">
+    </div>
+	<h2>2.1.3.     Copy the file from your local host to studife.it.p.lodz.pl server using scp or sftp protocol. Use netstat and Wireshark to identify ports which are used for data transmission (local and remote port numbers). Finish the connection and check local port status.</h2>
+	<p>We set the wireshark filter to <i>ip.addr==212.51.220.81</i>. Then we use scp to put the file on the server and check <i>netstat -n | findstr 212.51.220.81</i>.</p>
+		<img src="task4.3.1.png"  width="80%" alt="">
+        <img src="task4.3.2.png"  width="80%" alt="">
+	<h2>2.1.4.     Use Wireshark to check which protocol and port is used in transport layer by DNS protocol.</h2>
+	<p>We set the filetr in wireshark to <i>dns</i> and capture the traffic.</p>
+	<img src="task4.4.png"  width="80%" alt="">
+</body>
+</html>
